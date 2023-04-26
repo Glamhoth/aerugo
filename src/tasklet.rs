@@ -1,44 +1,35 @@
 //! TODO
 
-use crate::{RuntimeApi, QueueHandle, MessageQueue};
+mod task;
+mod task_id;
+mod tasklet_tcb;
+
+pub use self::task_id::TaskId;
+pub use self::tasklet_tcb::TaskletTcb;
+
+pub(crate) use self::task::{Task, TaskHandle};
+
 use core::marker::PhantomData;
 
 /// TODO
-pub(crate) trait Task {
-    fn execute(&self, queue: QueueHandle);
-    fn type_name(&self) -> &'static str;
-}
-
-/// TODO
-#[derive(Debug)]
-pub(crate) struct TaskHandle(pub *const dyn Task);
-
-/// TODO
-unsafe impl Send for TaskHandle {}
-/// TODO
-unsafe impl Sync for TaskHandle {}
-
-/// TODO
-pub struct Tasklet<T> {
-    /// TODO
-    runtime_api: &'static (dyn RuntimeApi + Sync),
+pub(crate) struct Tasklet<T> {
+    name: &'static str,
     _marker: PhantomData<T>,
 }
 
 /// TODO
 impl<T> Tasklet<T> {
     /// TODO
-    pub const fn new(runtime_api: &'static (dyn RuntimeApi + Sync)) -> Self {
-        Tasklet { runtime_api, _marker: PhantomData }
+    pub const fn new(name: &'static str) -> Self {
+        Tasklet {
+            name,
+            _marker: PhantomData,
+        }
     }
 }
 
-impl<T: 'static> Task for Tasklet<T> {
-    fn execute(&self, queue: QueueHandle) {
-        let _concrete_queue = unsafe { (*queue.0).as_any().downcast_ref::<MessageQueue<T>>() };
-    }
-
-    fn type_name(&self) -> &'static str {
-        core::any::type_name::<T>()
+impl<T> Task for Tasklet<T> {
+    fn name(&self) -> &'static str {
+        self.name
     }
 }
