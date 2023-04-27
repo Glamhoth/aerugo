@@ -5,7 +5,7 @@ use core::marker::PhantomData;
 use crate::queue::QueueHandle;
 
 pub struct QueueTcb<T> {
-    _marker: PhantomData<T>
+    _marker: PhantomData<T>,
 }
 
 impl<T> QueueTcb<T> {

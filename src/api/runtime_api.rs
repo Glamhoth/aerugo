@@ -5,7 +5,11 @@ use crate::queue::QueueHandle;
 /// TODO
 pub trait RuntimeApi: ErrorType {
     /// TODO
-    fn send_data_to_queue<T>(&'static self, queue: &QueueHandle<T>, data: T) -> Result<(), Self::Error>;
+    fn send_data_to_queue<T>(
+        &'static self,
+        queue: &QueueHandle<T>,
+        data: T,
+    ) -> Result<(), Self::Error>;
 }
 
 /// Runtime error

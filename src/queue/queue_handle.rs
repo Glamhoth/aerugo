@@ -9,7 +9,7 @@ pub struct QueueHandle<T> {
 impl<T> QueueHandle<T> {
     pub const fn new() -> Self {
         QueueHandle {
-            _marker: PhantomData
+            _marker: PhantomData,
         }
     }
 }

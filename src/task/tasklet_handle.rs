@@ -9,7 +9,7 @@ pub struct TaskletHandle<T> {
 impl<T> TaskletHandle<T> {
     pub const fn new() -> Self {
         TaskletHandle {
-            _marker: PhantomData
+            _marker: PhantomData,
         }
     }
 }

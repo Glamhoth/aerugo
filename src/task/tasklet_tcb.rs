@@ -6,7 +6,7 @@ use crate::task::TaskletHandle;
 
 pub struct TaskletTcb<T, C> {
     _data_marker: PhantomData<T>,
-    _context_marker: PhantomData<C>
+    _context_marker: PhantomData<C>,
 }
 
 impl<T, C> TaskletTcb<T, C> {
