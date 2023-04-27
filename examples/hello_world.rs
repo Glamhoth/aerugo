@@ -9,7 +9,7 @@ extern crate panic_semihosting;
 use cortex_m_rt::entry;
 use cortex_m_semihosting::debug;
 
-use aerugo::{Executor, InitApi, QueueTcb, TaskletTcb};
+use aerugo::{Executor, InitApi, Peripherals, QueueTcb, TaskletTcb};
 
 static EXECUTOR: Executor = Executor::new();
 
@@ -22,23 +22,24 @@ static task_a: TaskletTcb<u16, TaskAData> = TaskletTcb::new();
 
 static queue_x: QueueTcb<u16> = QueueTcb::new();
 
+fn init_hardware(_peripherals: &Peripherals) {}
+
 #[entry]
 fn main() -> ! {
     let task_a_handle = EXECUTOR.create_tasklet("TaskA", &task_a).unwrap();
 
-    EXECUTOR.create_queue(&queue_x);
-    let queue_x_handle = queue_x.create_handle();
+    let queue_x_handle = EXECUTOR.create_queue(&queue_x).unwrap();
 
     EXECUTOR.subscribe_tasklet_to_queue(&task_a_handle, &queue_x_handle);
 
-    debug::exit(debug::EXIT_SUCCESS);
+    EXECUTOR.init_hardware(init_hardware);
 
-    #[allow(clippy::empty_loop)]
-    loop {}
+    debug::exit(debug::EXIT_SUCCESS);
+    EXECUTOR.start_scheduler()
 }
 
 mod some_mod {
-    use crate::{EXECUTOR, queue_x};
+    use crate::{queue_x, EXECUTOR};
     use aerugo::{QueueHandle, RuntimeApi};
     use cortex_m_rt::exception;
 

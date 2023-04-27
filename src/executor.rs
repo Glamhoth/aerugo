@@ -3,6 +3,7 @@
 mod error;
 
 use crate::api::{InitApi, RuntimeApi};
+use crate::peripherals::Peripherals;
 use crate::queue::{QueueHandle, QueueTcb};
 use crate::task::{TaskletHandle, TaskletTcb};
 
@@ -13,6 +14,19 @@ impl Executor {
     /// TODO
     pub const fn new() -> Self {
         Executor {}
+    }
+
+    /// TODO
+    pub fn start_scheduler(&self) -> ! {
+        self.init_system();
+
+        #[allow(clippy::empty_loop)]
+        loop {}
+    }
+
+    /// TODO
+    fn init_system(&self) {
+        todo!();
     }
 }
 
@@ -25,7 +39,10 @@ impl InitApi for Executor {
         todo!();
     }
 
-    fn create_queue<T>(&'static self, _tcb: &'static QueueTcb<T>) {
+    fn create_queue<T>(
+        &'static self,
+        _tcb: &'static QueueTcb<T>,
+    ) -> Result<QueueHandle<T>, Self::Error> {
         todo!();
     }
 
@@ -34,6 +51,10 @@ impl InitApi for Executor {
         _tasklet: &TaskletHandle<T>,
         _queue: &QueueHandle<T>,
     ) {
+        todo!();
+    }
+
+    fn init_hardware(&self, _init_fn: fn(&Peripherals)) {
         todo!();
     }
 }

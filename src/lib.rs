@@ -7,10 +7,12 @@
 
 mod api;
 mod executor;
-mod task;
+mod peripherals;
 mod queue;
+mod task;
 
 pub use self::api::{InitApi, RuntimeApi};
 pub use self::executor::Executor;
-pub use self::task::{TaskletHandle, TaskletTcb};
+pub use self::peripherals::Peripherals;
 pub use self::queue::{QueueHandle, QueueTcb};
+pub use self::task::{TaskletHandle, TaskletTcb};
