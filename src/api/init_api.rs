@@ -1,5 +1,6 @@
 //! TODO
 
+use crate::event::{EventHandle, EventTcb, EventType};
 use crate::peripherals::Peripherals;
 use crate::queue::{QueueHandle, QueueTcb};
 use crate::task::{TaskletHandle, TaskletTcb};
@@ -20,11 +21,26 @@ pub trait InitApi: ErrorType {
     ) -> Result<QueueHandle<T>, Self::Error>;
 
     /// TODO
+    fn create_event<T: EventType>(
+        &'static self,
+        event_type: T,
+        tcb: &'static EventTcb<T>,
+    ) -> Result<EventHandle<T>, Self::Error>;
+
+    /// TODO
     fn subscribe_tasklet_to_queue<T>(
         &'static self,
         tasklet: &TaskletHandle<T>,
         queue: &QueueHandle<T>,
-    );
+    ) -> Result<(), Self::Error>;
+
+    /// TODO
+    fn subscribe_tasklet_to_event<T: EventType>(
+        &'static self,
+        tasklet: &TaskletHandle<T>,
+        event: &EventHandle<T>,
+    ) -> Result<(), Self::Error>;
+
 
     /// TODO
     fn init_hardware(&self, init_fn: fn(&Peripherals));

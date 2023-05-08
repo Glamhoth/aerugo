@@ -1,6 +1,7 @@
 //! TODO
 
 use crate::queue::QueueHandle;
+use crate::event::{EventHandle, EventType};
 
 /// TODO
 pub trait RuntimeApi: ErrorType {
@@ -9,6 +10,12 @@ pub trait RuntimeApi: ErrorType {
         &'static self,
         queue: &QueueHandle<T>,
         data: T,
+    ) -> Result<(), Self::Error>;
+
+    /// TODO
+    fn emit_event<T: EventType> (
+        &'static self,
+        event: &EventHandle<T>,
     ) -> Result<(), Self::Error>;
 }
 

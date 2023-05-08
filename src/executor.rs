@@ -3,6 +3,7 @@
 mod error;
 
 use crate::api::{InitApi, RuntimeApi};
+use crate::event::{EventHandle, EventTcb, EventType};
 use crate::peripherals::Peripherals;
 use crate::queue::{QueueHandle, QueueTcb};
 use crate::task::{TaskletHandle, TaskletTcb};
@@ -46,11 +47,27 @@ impl InitApi for Executor {
         todo!();
     }
 
+    fn create_event<T: EventType>(
+        &'static self,
+        _event_type: T,
+        _tcb: &'static EventTcb<T>,
+    ) -> Result<EventHandle<T>, Self::Error> {
+        todo!();
+    }
+
     fn subscribe_tasklet_to_queue<T>(
         &'static self,
         _tasklet: &TaskletHandle<T>,
         _queue: &QueueHandle<T>,
-    ) {
+    ) -> Result<(), Self::Error> {
+        todo!();
+    }
+
+    fn subscribe_tasklet_to_event<T: EventType>(
+        &'static self,
+        _tasklet: &TaskletHandle<T>,
+        _event: &EventHandle<T>,
+    ) -> Result<(), Self::Error> {
         todo!();
     }
 
@@ -64,6 +81,13 @@ impl RuntimeApi for Executor {
         &'static self,
         _queue: &QueueHandle<T>,
         _data: T,
+    ) -> Result<(), Self::Error> {
+        todo!();
+    }
+
+    fn emit_event<T: EventType> (
+        &'static self,
+        _event: &EventHandle<T>,
     ) -> Result<(), Self::Error> {
         todo!();
     }
