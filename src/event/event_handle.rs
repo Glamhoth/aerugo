@@ -11,7 +11,7 @@ pub struct EventHandle<T: EventType> {
 
 impl<T: EventType> EventHandle<T> {
     /// TODO
-    pub const fn new() -> Self {
+    pub(crate) const fn new() -> Self {
         EventHandle {
             _marker: PhantomData
         }

@@ -3,6 +3,7 @@
 mod error;
 
 use crate::api::{InitApi, RuntimeApi};
+use crate::boolean_condition::{BooleanConditionHandle, BooleanConditionSet, BooleanConditionTcb};
 use crate::event::{EventHandle, EventTcb, EventType};
 use crate::peripherals::Peripherals;
 use crate::queue::{QueueHandle, QueueTcb};
@@ -55,6 +56,13 @@ impl InitApi for Executor {
         todo!();
     }
 
+    fn create_boolean_condition(
+        &'static self,
+        _tcb: &'static BooleanConditionTcb,
+    ) -> Result<BooleanConditionHandle, Self::Error> {
+        todo!();
+    }
+
     fn subscribe_tasklet_to_queue<T>(
         &'static self,
         _tasklet: &TaskletHandle<T>,
@@ -67,6 +75,14 @@ impl InitApi for Executor {
         &'static self,
         _tasklet: &TaskletHandle<T>,
         _event: &EventHandle<T>,
+    ) -> Result<(), Self::Error> {
+        todo!();
+    }
+
+    fn subscribe_tasklet_to_condition_set<T>(
+        &'static self,
+        _tasklet: &TaskletHandle<T>,
+        _condition_set: BooleanConditionSet,
     ) -> Result<(), Self::Error> {
         todo!();
     }
@@ -85,10 +101,7 @@ impl RuntimeApi for Executor {
         todo!();
     }
 
-    fn emit_event<T: EventType> (
-        &'static self,
-        _event: &EventHandle<T>,
-    ) -> Result<(), Self::Error> {
+    fn emit_event<T: EventType>(&'static self, _event: &EventHandle<T>) -> Result<(), Self::Error> {
         todo!();
     }
 }

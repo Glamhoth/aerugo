@@ -1,5 +1,6 @@
 //! TODO
 
+use crate::boolean_condition::{BooleanConditionHandle, BooleanConditionSet, BooleanConditionTcb};
 use crate::event::{EventHandle, EventTcb, EventType};
 use crate::peripherals::Peripherals;
 use crate::queue::{QueueHandle, QueueTcb};
@@ -28,6 +29,12 @@ pub trait InitApi: ErrorType {
     ) -> Result<EventHandle<T>, Self::Error>;
 
     /// TODO
+    fn create_boolean_condition(
+        &'static self,
+        tcb: &'static BooleanConditionTcb,
+    ) -> Result<BooleanConditionHandle, Self::Error>;
+
+    /// TODO
     fn subscribe_tasklet_to_queue<T>(
         &'static self,
         tasklet: &TaskletHandle<T>,
@@ -41,6 +48,12 @@ pub trait InitApi: ErrorType {
         event: &EventHandle<T>,
     ) -> Result<(), Self::Error>;
 
+    /// TODO
+    fn subscribe_tasklet_to_condition_set<T>(
+        &'static self,
+        tasklet: &TaskletHandle<T>,
+        condition_set: BooleanConditionSet,
+    ) -> Result<(), Self::Error>;
 
     /// TODO
     fn init_hardware(&self, init_fn: fn(&Peripherals));

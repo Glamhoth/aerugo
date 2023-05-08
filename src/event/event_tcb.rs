@@ -4,6 +4,7 @@ use core::marker::PhantomData;
 
 use crate::event::{EventHandle, EventType};
 
+/// TODO
 pub struct EventTcb<T: EventType> {
     _marker: PhantomData<T>,
 }
