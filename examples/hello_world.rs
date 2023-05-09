@@ -10,8 +10,8 @@ use cortex_m_rt::entry;
 use cortex_m_semihosting::debug;
 
 use aerugo::{
-    BooleanConditionSet, BooleanConditionSetType, BooleanConditionTcb, EventTcb, EventType,
-    Executor, InitApi, Peripherals, QueueTcb, TaskletTcb,
+    BooleanConditionSet, BooleanConditionSetType, BooleanConditionStorage, EventStorage, EventType,
+    Executor, InitApi, Peripherals, QueueStorage, TaskletStorage,
 };
 
 static EXECUTOR: Executor = Executor::new();
@@ -20,9 +20,9 @@ struct TaskAData {
     a: u8,
     b: u8,
 }
-static task_a: TaskletTcb<u16, TaskAData> = TaskletTcb::new();
+static task_a: TaskletStorage<u16, TaskAData> = TaskletStorage::new();
 
-static queue_x: QueueTcb<u16> = QueueTcb::new();
+static queue_x: QueueStorage<u16> = QueueStorage::new();
 
 enum ImportantEvents {
     Event1,
@@ -30,14 +30,14 @@ enum ImportantEvents {
 }
 impl EventType for ImportantEvents {}
 
-static task_b: TaskletTcb<ImportantEvents, ()> = TaskletTcb::new();
+static task_b: TaskletStorage<ImportantEvents, ()> = TaskletStorage::new();
 
-static event_1: EventTcb<ImportantEvents> = EventTcb::new();
+static event_1: EventStorage<ImportantEvents> = EventStorage::new();
 
-static condition_u: BooleanConditionTcb = BooleanConditionTcb::new();
-static condition_v: BooleanConditionTcb = BooleanConditionTcb::new();
+static condition_u: BooleanConditionStorage = BooleanConditionStorage::new();
+static condition_v: BooleanConditionStorage = BooleanConditionStorage::new();
 
-static task_c: TaskletTcb<(), ()> = TaskletTcb::new();
+static task_c: TaskletStorage<(), ()> = TaskletStorage::new();
 
 fn init_hardware(_peripherals: &Peripherals) {}
 
@@ -72,7 +72,9 @@ fn main() -> ! {
 
     let task_c_handle = EXECUTOR.create_tasklet("TaskC", &task_c).unwrap();
 
-    EXECUTOR.subscribe_tasklet_to_cycling_execution(&task_c_handle, 60.0).unwrap();
+    EXECUTOR
+        .subscribe_tasklet_to_cycling_execution(&task_c_handle, 60.0)
+        .unwrap();
 
     EXECUTOR.init_hardware(init_hardware);
 

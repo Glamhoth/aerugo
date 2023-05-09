@@ -15,10 +15,10 @@ mod task;
 
 pub use self::api::{InitApi, RuntimeApi};
 pub use self::boolean_condition::{
-    BooleanConditionHandle, BooleanConditionSet, BooleanConditionSetType, BooleanConditionTcb,
+    BooleanConditionHandle, BooleanConditionSet, BooleanConditionSetType, BooleanConditionStorage,
 };
-pub use self::event::{EventHandle, EventTcb, EventType};
+pub use self::event::{EventHandle, EventStorage, EventType};
 pub use self::executor::Executor;
 pub use self::peripherals::Peripherals;
-pub use self::queue::{QueueHandle, QueueTcb};
-pub use self::task::{TaskletHandle, TaskletTcb};
+pub use self::queue::{QueueHandle, QueueStorage};
+pub use self::task::{TaskletHandle, TaskletStorage};

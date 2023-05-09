@@ -1,10 +1,12 @@
 //! TODO
 
-use crate::boolean_condition::{BooleanConditionHandle, BooleanConditionSet, BooleanConditionTcb};
-use crate::event::{EventHandle, EventTcb, EventType};
+use crate::boolean_condition::{
+    BooleanConditionHandle, BooleanConditionSet, BooleanConditionStorage,
+};
+use crate::event::{EventHandle, EventStorage, EventType};
 use crate::peripherals::Peripherals;
-use crate::queue::{QueueHandle, QueueTcb};
-use crate::task::{TaskletHandle, TaskletTcb};
+use crate::queue::{QueueHandle, QueueStorage};
+use crate::task::{TaskletHandle, TaskletStorage};
 
 /// TODO
 pub trait InitApi: ErrorType {
@@ -12,26 +14,26 @@ pub trait InitApi: ErrorType {
     fn create_tasklet<T, C: 'static>(
         &'static self,
         name: &'static str,
-        tcb: &'static TaskletTcb<T, C>,
+        storage: &'static TaskletStorage<T, C>,
     ) -> Result<TaskletHandle<T>, Self::Error>;
 
     /// TODO
     fn create_queue<T>(
         &'static self,
-        tcb: &'static QueueTcb<T>,
+        storage: &'static QueueStorage<T>,
     ) -> Result<QueueHandle<T>, Self::Error>;
 
     /// TODO
     fn create_event<T: EventType>(
         &'static self,
         event_type: T,
-        tcb: &'static EventTcb<T>,
+        storage: &'static EventStorage<T>,
     ) -> Result<EventHandle<T>, Self::Error>;
 
     /// TODO
     fn create_boolean_condition(
         &'static self,
-        tcb: &'static BooleanConditionTcb,
+        storage: &'static BooleanConditionStorage,
     ) -> Result<BooleanConditionHandle, Self::Error>;
 
     /// TODO

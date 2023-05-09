@@ -5,14 +5,14 @@ use core::marker::PhantomData;
 use crate::event::{EventHandle, EventType};
 
 /// TODO
-pub struct EventTcb<T: EventType> {
+pub struct EventStorage<T: EventType> {
     _marker: PhantomData<T>,
 }
 
-impl<T: EventType> EventTcb<T> {
+impl<T: EventType> EventStorage<T> {
     /// TODO
     pub const fn new() -> Self {
-        EventTcb {
+        EventStorage {
             _marker: PhantomData,
         }
     }

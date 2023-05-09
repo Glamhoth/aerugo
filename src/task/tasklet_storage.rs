@@ -4,15 +4,15 @@ use core::marker::PhantomData;
 
 use crate::task::TaskletHandle;
 
-pub struct TaskletTcb<T, C> {
+pub struct TaskletStorage<T, C> {
     _data_marker: PhantomData<T>,
     _context_marker: PhantomData<C>,
 }
 
-impl<T, C> TaskletTcb<T, C> {
+impl<T, C> TaskletStorage<T, C> {
     /// TODO
     pub const fn new() -> Self {
-        TaskletTcb {
+        TaskletStorage {
             _data_marker: PhantomData,
             _context_marker: PhantomData,
         }

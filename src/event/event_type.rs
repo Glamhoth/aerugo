@@ -1,6 +1,4 @@
 //! TODO
 
 /// TODO
-pub trait EventType {
-
-}
+pub trait EventType {}

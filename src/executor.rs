@@ -3,11 +3,13 @@
 mod error;
 
 use crate::api::{InitApi, RuntimeApi};
-use crate::boolean_condition::{BooleanConditionHandle, BooleanConditionSet, BooleanConditionTcb};
-use crate::event::{EventHandle, EventTcb, EventType};
+use crate::boolean_condition::{
+    BooleanConditionHandle, BooleanConditionSet, BooleanConditionStorage,
+};
+use crate::event::{EventHandle, EventStorage, EventType};
 use crate::peripherals::Peripherals;
-use crate::queue::{QueueHandle, QueueTcb};
-use crate::task::{TaskletHandle, TaskletTcb};
+use crate::queue::{QueueHandle, QueueStorage};
+use crate::task::{TaskletHandle, TaskletStorage};
 
 /// TODO
 pub struct Executor {}
@@ -36,14 +38,14 @@ impl InitApi for Executor {
     fn create_tasklet<T, C: 'static>(
         &'static self,
         _name: &'static str,
-        _tcb: &'static TaskletTcb<T, C>,
+        _storage: &'static TaskletStorage<T, C>,
     ) -> Result<TaskletHandle<T>, Self::Error> {
         todo!();
     }
 
     fn create_queue<T>(
         &'static self,
-        _tcb: &'static QueueTcb<T>,
+        _storage: &'static QueueStorage<T>,
     ) -> Result<QueueHandle<T>, Self::Error> {
         todo!();
     }
@@ -51,14 +53,14 @@ impl InitApi for Executor {
     fn create_event<T: EventType>(
         &'static self,
         _event_type: T,
-        _tcb: &'static EventTcb<T>,
+        _storage: &'static EventStorage<T>,
     ) -> Result<EventHandle<T>, Self::Error> {
         todo!();
     }
 
     fn create_boolean_condition(
         &'static self,
-        _tcb: &'static BooleanConditionTcb,
+        _storage: &'static BooleanConditionStorage,
     ) -> Result<BooleanConditionHandle, Self::Error> {
         todo!();
     }

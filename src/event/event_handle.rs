@@ -13,7 +13,7 @@ impl<T: EventType> EventHandle<T> {
     /// TODO
     pub(crate) const fn new() -> Self {
         EventHandle {
-            _marker: PhantomData
+            _marker: PhantomData,
         }
     }
 }

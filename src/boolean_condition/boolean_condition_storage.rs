@@ -2,12 +2,12 @@
 
 use crate::boolean_condition::BooleanConditionHandle;
 
-pub struct BooleanConditionTcb {}
+pub struct BooleanConditionStorage {}
 
-impl BooleanConditionTcb {
+impl BooleanConditionStorage {
     /// TODO
     pub const fn new() -> Self {
-        BooleanConditionTcb {}
+        BooleanConditionStorage {}
     }
 
     /// TODO

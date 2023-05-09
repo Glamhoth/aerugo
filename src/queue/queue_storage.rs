@@ -5,14 +5,14 @@ use core::marker::PhantomData;
 use crate::queue::QueueHandle;
 
 /// TODO
-pub struct QueueTcb<T> {
+pub struct QueueStorage<T> {
     _marker: PhantomData<T>,
 }
 
-impl<T> QueueTcb<T> {
+impl<T> QueueStorage<T> {
     /// TODO
     pub const fn new() -> Self {
-        QueueTcb {
+        QueueStorage {
             _marker: PhantomData,
         }
     }

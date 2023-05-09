@@ -1,10 +1,10 @@
 //! TODO
 
 mod boolean_condition_handle;
-mod boolean_condition_tcb;
+mod boolean_condition_storage;
 
 pub use self::boolean_condition_handle::BooleanConditionHandle;
-pub use self::boolean_condition_tcb::BooleanConditionTcb;
+pub use self::boolean_condition_storage::BooleanConditionStorage;
 
 /// TODO
 pub enum BooleanConditionSetType {
