@@ -56,6 +56,13 @@ pub trait InitApi: ErrorType {
     ) -> Result<(), Self::Error>;
 
     /// TODO
+    fn subscribe_tasklet_to_cycling_execution(
+        &'static self,
+        tasklet: &TaskletHandle<()>,
+        period: f64,
+    ) -> Result<(), Self::Error>;
+
+    /// TODO
     fn init_hardware(&self, init_fn: fn(&Peripherals));
 }
 

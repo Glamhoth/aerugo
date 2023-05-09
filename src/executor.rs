@@ -87,6 +87,14 @@ impl InitApi for Executor {
         todo!();
     }
 
+    fn subscribe_tasklet_to_cycling_execution(
+        &'static self,
+        _tasklet: &TaskletHandle<()>,
+        _period: f64,
+    ) -> Result<(), Self::Error> {
+        todo!();
+    }
+
     fn init_hardware(&self, _init_fn: fn(&Peripherals)) {
         todo!();
     }

@@ -37,6 +37,8 @@ static event_1: EventTcb<ImportantEvents> = EventTcb::new();
 static condition_u: BooleanConditionTcb = BooleanConditionTcb::new();
 static condition_v: BooleanConditionTcb = BooleanConditionTcb::new();
 
+static task_c: TaskletTcb<(), ()> = TaskletTcb::new();
+
 fn init_hardware(_peripherals: &Peripherals) {}
 
 #[entry]
@@ -67,6 +69,10 @@ fn main() -> ! {
     EXECUTOR
         .subscribe_tasklet_to_condition_set(&task_a_handle, condition_set)
         .unwrap();
+
+    let task_c_handle = EXECUTOR.create_tasklet("TaskC", &task_c).unwrap();
+
+    EXECUTOR.subscribe_tasklet_to_cycling_execution(&task_c_handle, 60.0).unwrap();
 
     EXECUTOR.init_hardware(init_hardware);
 
