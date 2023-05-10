@@ -117,4 +117,34 @@ impl RuntimeApi for Executor {
     fn emit_event<T: EventType>(&'static self, _event: &EventHandle<T>) -> Result<(), Self::Error> {
         todo!();
     }
+
+    fn emit_event_delayed<T: EventType>(
+        &'static self,
+        _event: &EventHandle<T>,
+        _delay: f64,
+    ) -> Result<(), Self::Error> {
+        todo!();
+    }
+
+    fn cancel_event<T: EventType>(
+        &'static self,
+        _event: &EventHandle<T>,
+    ) -> Result<(), Self::Error> {
+        todo!();
+    }
+
+    fn get_condition_value(
+        &'static self,
+        _condition: &BooleanConditionHandle,
+    ) -> Result<bool, Self::Error> {
+        todo!();
+    }
+
+    fn set_condition_value(
+        &'static self,
+        _condition: &BooleanConditionHandle,
+        _value: bool,
+    ) -> Result<(), Self::Error> {
+        todo!();
+    }
 }

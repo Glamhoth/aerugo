@@ -1,5 +1,6 @@
 //! TODO
 
+use crate::boolean_condition::BooleanConditionHandle;
 use crate::event::{EventHandle, EventType};
 use crate::queue::QueueHandle;
 
@@ -14,6 +15,30 @@ pub trait RuntimeApi: ErrorType {
 
     /// TODO
     fn emit_event<T: EventType>(&'static self, event: &EventHandle<T>) -> Result<(), Self::Error>;
+
+    /// TODO
+    fn emit_event_delayed<T: EventType>(
+        &'static self,
+        event: &EventHandle<T>,
+        delay: f64,
+    ) -> Result<(), Self::Error>;
+
+    /// TODO
+    fn cancel_event<T: EventType>(&'static self, event: &EventHandle<T>)
+        -> Result<(), Self::Error>;
+
+    /// TODO
+    fn get_condition_value(
+        &'static self,
+        condition: &BooleanConditionHandle,
+    ) -> Result<bool, Self::Error>;
+
+    /// TODO
+    fn set_condition_value(
+        &'static self,
+        condition: &BooleanConditionHandle,
+        value: bool,
+    ) -> Result<(), Self::Error>;
 }
 
 /// Runtime error
