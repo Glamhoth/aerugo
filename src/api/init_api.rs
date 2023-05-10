@@ -9,11 +9,11 @@ use crate::queue::{QueueHandle, QueueStorage};
 use crate::task::{TaskletHandle, TaskletStorage};
 
 /// TODO
-pub trait InitApi: ErrorType {
+pub trait InitApi: ErrorType + TaskConfigType {
     /// TODO
     fn create_tasklet<T, C: 'static>(
         &'static self,
-        name: &'static str,
+        config: Self::TaskConfig,
         storage: &'static TaskletStorage<T, C>,
     ) -> Result<TaskletHandle<T>, Self::Error>;
 
@@ -79,4 +79,12 @@ pub trait ErrorType {
 
 impl<T: ErrorType> ErrorType for &mut T {
     type Error = T::Error;
+}
+
+pub trait TaskConfiguration: Default {}
+
+/// Task configuration type trait
+pub trait TaskConfigType {
+    /// Configuration type
+    type TaskConfig: TaskConfiguration;
 }

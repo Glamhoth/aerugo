@@ -18,7 +18,7 @@ pub use self::boolean_condition::{
     BooleanConditionHandle, BooleanConditionSet, BooleanConditionSetType, BooleanConditionStorage,
 };
 pub use self::event::{EventHandle, EventStorage, EventType};
-pub use self::executor::Executor;
+pub use self::executor::{Executor, TaskletConfiguration};
 pub use self::peripherals::Peripherals;
 pub use self::queue::{QueueHandle, QueueStorage};
 pub use self::task::{TaskletHandle, TaskletStorage};

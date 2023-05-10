@@ -1,6 +1,9 @@
 //! TODO
 
+mod configuration;
 mod error;
+
+pub use self::configuration::TaskletConfiguration;
 
 use crate::api::{InitApi, RuntimeApi};
 use crate::boolean_condition::{
@@ -37,7 +40,7 @@ impl Executor {
 impl InitApi for Executor {
     fn create_tasklet<T, C: 'static>(
         &'static self,
-        _name: &'static str,
+        _config: Self::TaskConfig,
         _storage: &'static TaskletStorage<T, C>,
     ) -> Result<TaskletHandle<T>, Self::Error> {
         todo!();
