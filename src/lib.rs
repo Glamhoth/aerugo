@@ -4,5 +4,15 @@
 `aerugo` is a safety-critical applications oriented Real-Time Operating System.
 */
 #![no_std]
-#![feature(error_in_core)]
 
+mod aerugo;
+mod api;
+mod crit_cell;
+mod internal_cell;
+mod notifier;
+mod queue;
+
+pub use self::aerugo::Aerugo;
+pub use self::api::InitApi;
+pub use self::crit_cell::CritCell;
+pub use self::queue::MessageQueueStorage;
