@@ -43,13 +43,16 @@ impl<T, const N: usize> MessageQueueStorage<T, N> {
             let queue_buffer =
                 self.queue_buffer.as_mut_ref().as_mut_ptr() as *mut MessageQueue<T, N>;
             core::ptr::write(queue_buffer, message_queue);
+        }
 
+        unsafe {
             *self.initialized.as_mut_ref() = true;
         }
 
         Ok(())
     }
 
+    /// TODO
     pub fn create_queue_handle(&'static self) -> Option<QueueHandle<T>> {
         match self.queue() {
             Some(q) => Some(QueueHandle::new(q)),
