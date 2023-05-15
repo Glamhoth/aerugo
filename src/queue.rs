@@ -11,9 +11,11 @@ pub use self::message_queue_storage::MessageQueueStorage;
 pub use self::queue_handle::QueueHandle;
 
 use crate::aerugo::error::RuntimeError;
+use crate::data_provider::DataProvider;
+use crate::notifier::Notifier;
 
 /// TODO
-pub(crate) trait Queue<T> {
+pub(crate) trait Queue<T>: Notifier + DataProvider<T> {
     /// TODO
     fn send_data(&'static self, data: T) -> Result<(), RuntimeError>;
 }

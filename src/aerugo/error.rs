@@ -6,6 +6,8 @@ use crate::api::{init_api, runtime_api};
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum InitError {
     AlreadyInitialized,
+    TooManyTasklets,
+    DataProviderAlreadySet,
 }
 
 impl init_api::Error for InitError {}

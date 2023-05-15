@@ -1,22 +1,31 @@
 //! TODO
 
-use core::marker::PhantomData;
-
-use crate::task::Task;
+use crate::data_receiver::DataReceiver;
+use crate::task::{Task, Tasklet};
 
 /// TODO
 #[allow(dead_code)]
-pub struct TaskHandle<T> {
+pub struct TaskHandle<T: 'static> {
     task: &'static dyn Task,
-    _data_type_marker: PhantomData<T>,
+    data_receiver: &'static dyn DataReceiver<T>,
 }
 
 impl<T> TaskHandle<T> {
     /// TODO
-    pub(crate) const fn new(task: &'static dyn Task) -> Self {
+    pub(crate) const fn new<C>(tasklet: &'static Tasklet<T, C>) -> Self {
         TaskHandle {
-            task,
-            _data_type_marker: PhantomData,
+            task: tasklet,
+            data_receiver: tasklet,
         }
+    }
+
+    /// TODO
+    pub(crate) fn as_task(&self) -> &'static dyn Task {
+        self.task
+    }
+
+    /// TODO
+    pub(crate) fn as_data_receiver(&self) -> &'static dyn DataReceiver<T> {
+        self.data_receiver
     }
 }
