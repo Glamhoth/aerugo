@@ -1,5 +1,6 @@
 //! TODO
 
+use core::fmt::Debug;
 use core::marker::PhantomData;
 use heapless::Vec;
 
@@ -13,7 +14,7 @@ pub(crate) type TaskletBuffer = Vec<u8, { core::mem::size_of::<Tasklet<(), ()>>(
 
 /// TODO
 #[allow(dead_code)]
-pub struct TaskletStorage<T: 'static, C> {
+pub struct TaskletStorage<T: 'static + Debug, C> {
     /// Marks whether this storage is initialized.
     ///
     /// SAFETY: This is only modified in the [`Self::init()`].
@@ -28,7 +29,7 @@ pub struct TaskletStorage<T: 'static, C> {
     _context_type_marker: PhantomData<C>,
 }
 
-impl<T, C> TaskletStorage<T, C> {
+impl<T: Debug, C> TaskletStorage<T, C> {
     /// TODO
     pub const fn new() -> Self {
         let tasklet_buffer = InternalCell::new(TaskletBuffer::new());

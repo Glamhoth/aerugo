@@ -62,4 +62,12 @@ impl<'a, T, const N: usize> Notifier for MessageQueue<'a, T, N> {
     }
 }
 
-impl<'a, T, const N: usize> DataProvider<T> for MessageQueue<'a, T, N> {}
+impl<'a, T, const N: usize> DataProvider<T> for MessageQueue<'a, T, N> {
+    fn data_ready(&self) -> bool {
+        self.data.lock(|q| !q.is_empty())
+    }
+
+    fn get_data(&self) -> T {
+        self.data.lock(|q| q.dequeue().unwrap())
+    }
+}

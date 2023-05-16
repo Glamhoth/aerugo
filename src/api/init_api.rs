@@ -1,25 +1,27 @@
 //! TODO
 
+use core::fmt::Debug;
+
 use crate::queue::{MessageQueueStorage, QueueHandle};
 use crate::task::{TaskHandle, TaskletStorage};
 
 /// TODO
 pub trait InitApi: ErrorType {
     /// TODO
-    fn create_tasklet<T, C>(
+    fn create_tasklet<T: Debug, C>(
         &'static self,
         name: &'static str,
         storage: &'static TaskletStorage<T, C>,
     ) -> Result<(), Self::Error>;
 
     /// TODO
-    fn create_message_queue<T, const N: usize>(
+    fn create_message_queue<T: Debug, const N: usize>(
         &'static self,
         storage: &'static MessageQueueStorage<T, N>,
     ) -> Result<(), Self::Error>;
 
     /// TODO
-    fn register_tasklet_to_queue<T>(
+    fn register_tasklet_to_queue<T: Debug>(
         &'static self,
         tasklet: &TaskHandle<T>,
         queue: &QueueHandle<T>,

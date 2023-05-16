@@ -5,8 +5,8 @@
 
 extern crate panic_semihosting;
 
-use cortex_m_rt::entry;
-use cortex_m_semihosting::debug;
+use cortex_m::peripheral::syst::SystClkSource;
+use cortex_m_rt::{entry, exception};
 
 use aerugo::{Aerugo, InitApi, MessageQueueStorage, TaskletStorage};
 
@@ -30,6 +30,14 @@ static queue_x: MessageQueueStorage<u8, 16> = MessageQueueStorage::new();
 
 #[entry]
 fn main() -> ! {
+    let peripherals = cortex_m::Peripherals::take().unwrap();
+
+    let mut syst = peripherals.SYST;
+    syst.set_clock_source(SystClkSource::Core);
+    syst.set_reload(800_000);
+    syst.enable_interrupt();
+    syst.enable_counter();
+
     AERUGO.create_tasklet("TASK_A", &tasklet_a).unwrap();
     let tasklet_a_handle = tasklet_a.create_task_handle().unwrap();
 
@@ -46,10 +54,20 @@ fn main() -> ! {
         .register_tasklet_to_queue(&tasklet_b_handle, &queue_x_handle)
         .unwrap();
 
-    queue_x_handle.send_data(1).unwrap();
+    AERUGO.start_scheduler();
+}
 
-    debug::exit(debug::EXIT_SUCCESS);
+#[exception]
+fn SysTick() {
+    static mut cnt: u8 = 0;
+    static mut data: u8 = 0;
 
-    #[allow(clippy::empty_loop)]
-    loop {}
+    *cnt = cnt.overflowing_add(1).0;
+
+    if *cnt == 0 {
+        *data = data.overflowing_add(1).0;
+
+        let queue_x_handle = queue_x.create_queue_handle().unwrap();
+        queue_x_handle.send_data(*data).unwrap();
+    }
 }

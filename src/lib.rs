@@ -10,6 +10,7 @@ mod api;
 mod crit_cell;
 mod data_provider;
 mod data_receiver;
+mod executor;
 mod internal_cell;
 mod notifier;
 mod queue;

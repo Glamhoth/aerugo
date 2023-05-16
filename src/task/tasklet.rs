@@ -3,6 +3,7 @@
 use super::Task;
 
 use core::marker::PhantomData;
+use core::fmt::Debug;
 
 use crate::aerugo::error::InitError;
 use crate::api::InternalApi;
@@ -12,7 +13,7 @@ use crate::internal_cell::InternalCell;
 
 /// TODO
 #[allow(dead_code)]
-pub(crate) struct Tasklet<T: 'static, C> {
+pub(crate) struct Tasklet<T: 'static + Debug, C> {
     name: &'static str,
     data_provider: InternalCell<Option<&'static dyn DataProvider<T>>>,
     api: &'static dyn InternalApi,
@@ -20,7 +21,7 @@ pub(crate) struct Tasklet<T: 'static, C> {
     _context_type_marker: PhantomData<C>,
 }
 
-impl<T, C> Tasklet<T, C> {
+impl<T: Debug, C> Tasklet<T, C> {
     /// TODO
     pub(crate) fn new(name: &'static str, api: &'static dyn InternalApi) -> Self {
         Tasklet {
@@ -33,13 +34,27 @@ impl<T, C> Tasklet<T, C> {
     }
 }
 
-impl<T, C> Task for Tasklet<T, C> {
+impl<T: Debug, C> Task for Tasklet<T, C> {
     fn get_name(&self) -> &'static str {
         self.name
     }
+
+    fn is_ready(&self) -> bool {
+        match unsafe { self.data_provider.as_ref() } {
+            Some(p) => p.data_ready(),
+            None => false,
+        }
+    }
+
+    fn execute(&self) {
+        if let Some(p) = unsafe { self.data_provider.as_ref() } {
+            let data = p.get_data();
+            cortex_m_semihosting::hprintln!("{}: {:?}", self.name, data);
+        }
+    }
 }
 
-impl<T, C> DataReceiver<T> for Tasklet<T, C> {
+impl<T: Debug, C> DataReceiver<T> for Tasklet<T, C> {
     fn set_data_provider(
         &'static self,
         data_provider: &'static dyn DataProvider<T>,

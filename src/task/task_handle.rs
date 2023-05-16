@@ -1,16 +1,18 @@
 //! TODO
 
+use core::fmt::Debug;
+
 use crate::data_receiver::DataReceiver;
 use crate::task::{Task, Tasklet};
 
 /// TODO
 #[allow(dead_code)]
-pub struct TaskHandle<T: 'static> {
+pub struct TaskHandle<T: 'static + Debug> {
     task: &'static dyn Task,
     data_receiver: &'static dyn DataReceiver<T>,
 }
 
-impl<T> TaskHandle<T> {
+impl<T: Debug> TaskHandle<T> {
     /// TODO
     pub(crate) const fn new<C>(tasklet: &'static Tasklet<T, C>) -> Self {
         TaskHandle {
