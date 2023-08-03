@@ -1,6 +1,6 @@
 use aerugo::{
-    log, time::MillisDurationU32, InitApi, SystemHardwareConfig, TaskletConfig, TaskletStorage,
-    AERUGO,
+    log, time::MillisDurationU32, Aerugo, InitApi, SystemHardwareConfig, TaskletConfig,
+    TaskletStorage,
 };
 
 #[derive(Default)]
@@ -27,7 +27,7 @@ static TASK_A_STORAGE: TaskletStorage<(), TaskAContext, 0> = TaskletStorage::new
 static TASK_B_STORAGE: TaskletStorage<(), TaskBContext, 0> = TaskletStorage::new();
 
 fn main() -> ! {
-    AERUGO.initialize(SystemHardwareConfig {
+    let aerugo = Aerugo::initialize(SystemHardwareConfig {
         watchdog_timeout: MillisDurationU32::secs(5),
     });
 
@@ -36,7 +36,7 @@ fn main() -> ! {
         ..Default::default()
     };
 
-    AERUGO
+    aerugo
         .create_tasklet(task_a_config, task_a, &TASK_A_STORAGE)
         .expect("Unable to create TaskA");
 
@@ -46,7 +46,7 @@ fn main() -> ! {
     };
     let task_b_context = TaskBContext { acc: 0 };
 
-    AERUGO
+    aerugo
         .create_tasklet_with_context(task_b_config, task_b, task_b_context, &TASK_B_STORAGE)
         .expect("Unable to create TaskB");
 
@@ -57,12 +57,12 @@ fn main() -> ! {
         .create_handle()
         .expect("Unable to create handle to TaskB");
 
-    AERUGO
+    aerugo
         .subscribe_tasklet_to_cyclic(&task_a_handle, None)
         .expect("Unable to set cyclic on TaskA");
-    AERUGO
+    aerugo
         .subscribe_tasklet_to_cyclic(&task_b_handle, None)
         .expect("Unable to set cyclic on TaskB");
 
-    AERUGO.start();
+    aerugo.start();
 }

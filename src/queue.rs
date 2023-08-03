@@ -1,6 +1,6 @@
 //! Generic queue.
 
-use crate::aerugo::error::{InitError, RuntimeError};
+use crate::api::{InitError, RuntimeError};
 use crate::data_provider::DataProvider;
 use crate::tasklet::TaskletPtr;
 
